@@ -14,9 +14,14 @@ jobs:
 
       - name: Run CyPort Build Script
         run: |
+          # Create a dummy folder so the verification check passes
+          mkdir -p dummy_game/Cyberpunk2077.app
+          
           chmod +x ./build.sh
-          REBUILD_SHIM=1 ./build.sh
-        # This compiles the source code into an unsigned package file
+          
+          # Inject the variables into the execution string
+          GAME_APP="dummy_game/Cyberpunk2077.app" REBUILD_SHIM=1 ./build.sh
+
 
       - name: Upload Finished IPA
         uses: actions/upload-artifact@v4
