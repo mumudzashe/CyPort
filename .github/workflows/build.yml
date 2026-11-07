@@ -12,19 +12,20 @@ jobs:
       - name: Setup Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Run CyPort Build Script
+            - name: Run CyPort Build Script
         run: |
           # 1. Create the internal directory layout structure
           mkdir -p dummy_game/Cyberpunk2077.app/Contents/MacOS
           
-          # 2. Compile a 1-line empty binary matching the system arm64 architecture
+          # 2. Compile a 1-line empty binary matching the system arm64 architecture with an explicit OS target
           echo 'print("stub")' > stub.swift
-          swiftc stub.swift -target arm64-apple-macos -o dummy_game/Cyberpunk2077.app/Contents/MacOS/Cyberpunk2077
+          swiftc stub.swift -target arm64-apple-macos14 -o dummy_game/Cyberpunk2077.app/Contents/MacOS/Cyberpunk2077
           
           chmod +x ./build.sh
           
           # 3. Run the compiler with the path variable injected
           GAME_APP="dummy_game/Cyberpunk2077.app" REBUILD_SHIM=1 ./build.sh
+
 
 
 
