@@ -14,17 +14,22 @@ jobs:
 
       - name: Run CyPort Build Script
         run: |
-          # 1. Create the internal directory layout structure
+          # 1. Create the binary and framework folder layouts
           mkdir -p dummy_game/Cyberpunk2077.app/Contents/MacOS
+          mkdir -p dummy_game/Cyberpunk2077.app/Contents/Frameworks
           
-          # 2. Compile a 1-line empty binary matching the system arm64 architecture with an explicit OS target
+          # 2. Compile the structural stub binary
           echo 'print("stub")' > stub.swift
           swiftc stub.swift -target arm64-apple-macos14 -o dummy_game/Cyberpunk2077.app/Contents/MacOS/Cyberpunk2077
           
+          # 3. Create a dummy framework file to satisfy the python glob search (*.dylib)
+          cp dummy_game/Cyberpunk2077.app/Contents/MacOS/Cyberpunk2077 dummy_game/Cyberpunk2077.app/Contents/Frameworks/stub.dylib
+          
           chmod +x ./build.sh
           
-          # 3. Run the compiler with the path variable injected
+          # 4. Execute the builder
           GAME_APP="dummy_game/Cyberpunk2077.app" REBUILD_SHIM=1 ./build.sh
+
 
 
 
