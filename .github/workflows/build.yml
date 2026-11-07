@@ -12,7 +12,7 @@ jobs:
       - name: Setup Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
-            - name: Run CyPort Build Script
+      - name: Run CyPort Build Script
         run: |
           # 1. Create the internal directory layout structure
           mkdir -p dummy_game/Cyberpunk2077.app/Contents/MacOS
