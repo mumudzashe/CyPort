@@ -1,0 +1,25 @@
+name: Build CyPort IPA
+on:
+  workflow_dispatch: # Allows you to trigger the build manually
+
+jobs:
+  build:
+    runs-on: macos-latest # Triggers a cloud-hosted macOS server
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Run CyPort Build Script
+        run: |
+          chmod +x ./build.sh
+          REBUILD_SHIM=1 ./build.sh
+        # This compiles the source code into an unsigned package file
+
+      - name: Upload Finished IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: CyPort-Unsigned-IPA
+          path: build/CyPort-unsigned.ipa
