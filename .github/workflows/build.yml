@@ -14,13 +14,17 @@ jobs:
 
       - name: Run CyPort Build Script
         run: |
-          # Create a dummy folder so the verification check passes
-          mkdir -p dummy_game/Cyberpunk2077.app
+          # 1. Create the full expected internal directory structure
+          mkdir -p dummy_game/Cyberpunk2077.app/Contents/MacOS
+          
+          # 2. Create a blank dummy executable file inside that path
+          touch dummy_game/Cyberpunk2077.app/Contents/MacOS/Cyberpunk2077
           
           chmod +x ./build.sh
           
-          # Inject the variables into the execution string
+          # 3. Run the compiler with the path variable injected
           GAME_APP="dummy_game/Cyberpunk2077.app" REBUILD_SHIM=1 ./build.sh
+
 
 
       - name: Upload Finished IPA
